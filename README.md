@@ -4,6 +4,14 @@
 
 Need help organizing your project's tasks? Just call PePython!
 
+## Install
+
+```bash
+pip install pepython
+```
+
+## Quick start
+
 Define your tasks in a `tasks.py` file your root directory. Note how dependencies are just method calls in the body of the tasks themselves. This allow params passing/forwarding and a more flexible schema than just pre/post dependencies.
 
 ```python
