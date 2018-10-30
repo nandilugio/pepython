@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
+bumpytrack = "*"
+twine = "*"
 
 [packages]
 pepython = {path = ".", editable = true}
