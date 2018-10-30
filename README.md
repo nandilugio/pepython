@@ -85,7 +85,7 @@ Apart from the `interactive` param shown above (see the password prompt in the o
 
 ```python
 @task
-def interactive_processes():
+def change_pass():
     s("passwd", interactive=True)
 ```
 
@@ -104,7 +104,7 @@ While other **non interactive processes** can be left to be managed by the task:
 
 ```python
 @task
-def shell_returned_values():
+def process_python_files():
     ls_result = s("ls *py", fail_fast=False, verbose=True)
 
     if not ls_result.ok:
@@ -120,7 +120,7 @@ def shell_returned_values():
 ```
 
 ```
-$ pepython shell_returned_values
+$ pepython process_python_files
 Executed shell command 'ls *py'
 exit code was: 0
 stdout was:
