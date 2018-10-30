@@ -1,0 +1,8 @@
+current_version: 0.2.0
+
+git_commit: True
+git_tag: True
+
+file_replaces:
+  - path: setup.py
+    search_template: version="{version}"
