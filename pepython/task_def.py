@@ -21,25 +21,39 @@ def task(task_func):
     public task name used to invoke it from the command line.
     """
     task_registry[task_func.__name__] = task_func
+    return task_func
 
 
-def s(command, verbose=False, fail_fast=True):
+def s(command, verbose=False, fail_fast=True, interactive=False):
     """
     Run a shell command.
     """
 
-    completed_process = subprocess.run(
-        command,
-        shell=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
-
-    output = {
-        "exit_code": completed_process.returncode,
-        "out": completed_process.stdout.decode('utf-8'),
-        "err": completed_process.stderr.decode('utf-8'),
-    }
+    completed_process = None
+    output = None
+    if interactive:
+        completed_process = subprocess.run(
+            command,
+            shell=True,
+            stdin=sys.stdin,
+            stdout=sys.stdout,
+            stderr=sys.stderr,
+        )
+        output = {
+            "exit_code": completed_process.returncode,
+        }
+    else:
+        completed_process = subprocess.run(
+            command,
+            shell=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        output = {
+            "exit_code": completed_process.returncode,
+            "out": completed_process.stdout.decode('utf-8'),
+            "err": completed_process.stderr.decode('utf-8'),
+        }
 
     result = None
     if completed_process.returncode == 0:
@@ -52,10 +66,16 @@ def s(command, verbose=False, fail_fast=True):
     if verbose or fail:
         cmn.logger.log(
             "Executed shell command '{command}'\n"
-            "exit code was: {exit_code}\n"
+            "exit code was: {exit_code}\n".format(
+                command=command,
+                **result.value
+            )
+        )
+
+    if (verbose or fail) and not interactive:
+        cmn.logger.log(
             "stdout was:\n{out}\n"
             "stderr was:\n{err}".format(
-                command=command,
                 **result.value
             )
         )
