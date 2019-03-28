@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
+from __future__ import absolute_import
 from __future__ import print_function
 
 import imp
 import os
 import sys
 
-import task_def
-import common as cmn
+from . import task_def
+from . import common as cmn
 
 
 # Helpers ####################################################################
