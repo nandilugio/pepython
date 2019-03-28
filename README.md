@@ -1,5 +1,3 @@
-**NOTE:** It happens that there is a much more mature project with active maintenance that is surprisingly similar to this one: [pyinvoke/invoke](https://github.com/pyinvoke/invoke). I'd be using it _so not maintaining this one_.
-
 # PePython
 
 Need help organizing your project's tasks? Just call PePython!
