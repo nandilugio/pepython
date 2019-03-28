@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="pepython",
-    version="0.2.1",
+    version="0.2.2",
     description="Simple task automation for projects.",
     long_description=long_description,
     long_description_content_type="text/markdown",
