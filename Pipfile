@@ -8,7 +8,7 @@ bumpytrack = "*"
 twine = "*"
 
 [packages]
-pepython = {path = ".", editable = true}
+pepython = {path = ".",editable = true}
 
 [requires]
 python_version = "2.7"

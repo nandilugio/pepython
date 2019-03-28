@@ -3,7 +3,7 @@ from pepython.task_def import task, s
 
 @task
 def clean():
-    s("rm -rf build dist *.egg-info")
+    s("rm -rf build dist pip-wheel-metadata *.egg-info")
     s("pipenv install -e .")
 
 
