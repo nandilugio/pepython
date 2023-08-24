@@ -3,3 +3,4 @@ dist
 pip-wheel-metadata
 *.egg-info
 *.pyc
+.pytest_cache

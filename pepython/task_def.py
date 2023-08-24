@@ -1,14 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import print_function
-
-import os
+import subprocess
 import sys
-
-if os.name == 'posix' and sys.version_info[0] < 3:
-    import subprocess32 as subprocess
-else:
-    import subprocess
 
 from . import common as cmn
 
@@ -36,6 +27,7 @@ def s(command, verbose=False, fail_fast=True, interactive=False):
         completed_process = subprocess.run(
             command,
             shell=True,
+            encoding="utf-8",
             stdin=sys.stdin,
             stdout=sys.stdout,
             stderr=sys.stderr,
@@ -52,8 +44,8 @@ def s(command, verbose=False, fail_fast=True, interactive=False):
         )
         output = {
             "exit_code": completed_process.returncode,
-            "out": completed_process.stdout.decode('utf-8'),
-            "err": completed_process.stderr.decode('utf-8'),
+            "out": completed_process.stdout,
+            "err": completed_process.stderr,
         }
 
     result = None
@@ -82,6 +74,6 @@ def s(command, verbose=False, fail_fast=True, interactive=False):
         )
 
     if fail:
-        cmn.fail("Failed executing shell command '{command}'".format(command=command))
+        cmn.fail(f"Failed executing shell command '{command}'")
 
     return result

@@ -138,7 +138,7 @@ Executed task 'shell_returned_values' successfuly.
 Make sure you have the lastest `pip` and `pipenv` versions:
 
 ```bash
-pip install --update pip pipenv
+pip install --upgrade pip pipenv
 ```
 
 To start developing, start the environment by:
@@ -155,6 +155,14 @@ To add an _application_ dependency, add it in `setup.py` and leave it with a loo
 To add a _development_ dependency, add it to `Pipfile` via `pipenv install -d <my-dependency>`.
 
 This way there's a single source of truth for package definition. No need to repeat the deps in `setup.py` and `Pipfile*`.
+
+### Tests
+
+To test the project run [`pytest`](https://docs.pytest.org/) inside the `pipenv`.
+
+### Dev tasks automation and publishing to PyPI
+
+This project uses `pepython` itself for automation. There you'll find tasks to build and publish the package to PyPI.
 
 ## License
 

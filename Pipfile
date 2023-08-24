@@ -6,9 +6,10 @@ name = "pypi"
 [dev-packages]
 bumpytrack = "*"
 twine = "*"
+pytest = "*"
 
 [packages]
 pepython = {path = ".",editable = true}
 
 [requires]
-python_version = "2.7"
+python_version = "3.11"

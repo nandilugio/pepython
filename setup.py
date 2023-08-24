@@ -14,13 +14,12 @@ setuptools.setup(
     author_email="nandilugio@gmail.com",
     license="MIT",
     classifiers=[
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
     install_requires=[
         "pyyaml",
-        "subprocess32",
     ],
     packages=setuptools.find_packages(),
     entry_points={
