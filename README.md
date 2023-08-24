@@ -1,3 +1,12 @@
+![CI](https://github.com/nandilugio/pepython/actions/workflows/ci.yml/badge.svg)
+
+**Current version:** 0.2.4
+
+Tested with Python 3.8, 3,9, 3.10 and 3.11 on latest Linux, MacOS and Windows. Code is simple. Probably works in other versions and platforms.
+
+**Pypi:** https://pypi.org/project/pepython/ </br>
+**Github:** https://github.com/nandilugio/pepython
+
 # PePython
 
 Need help organizing your project's tasks?

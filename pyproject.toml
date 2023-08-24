@@ -7,3 +7,7 @@ git_tag = true
 path = "setup.py"
 search_template = "version=\"{version}\""
 
+[[tool.bumpytrack.file_replaces]]
+path = "README.md"
+search_template = "**Current version:** {version}"
+
