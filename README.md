@@ -1,6 +1,12 @@
 # PePython
 
-Need help organizing your project's tasks? Just call PePython!
+Need help organizing your project's tasks?
+
+Don't want to learn a complex tool with an unnecessarily cumbersome syntax or API?
+
+Want to specify your tasks __in plain Python__ still having easy and flexible __access to the shell__?
+
+**Just call PePython!**
 
 ## Install
 
@@ -10,31 +16,31 @@ pip install pepython
 
 ## Quick start
 
-Define your tasks in a `tasks.py` file your root directory. Note how dependencies are just method calls in the body of the tasks themselves. This allow params passing/forwarding and a more flexible schema than just pre/post dependencies.
+Define your tasks in a `tasks.py` file your root directory. Tasks are just __plain Python__ functions. Note how dependencies are just calls in the body of the tasks themselves, alowing all kinds of dependencies and parameter forwarding (see the parameters in action further down!).
 
 ```python
 from pepython.task_def import task, s
 
 @task
-def clean(*args):
+def clean():
     s("rm -rf build dist *.egg-info")
 
 @task
-def build(*args):
+def build():
     clean()
     s("pipenv run python setup.py sdist bdist_wheel")
 
 @task
-def publish(*args):
+def publish():
     s("pipenv run twine upload dist/*", interactive=True)
 
 @task
-def build_and_publish(*args):
-    build()
-    publish()
+def build_and_publish():
+    build()     # These are
+    publish()   #  dependencies!
 ```
 
-Then just call for PePython!
+Then just call PePython!
 
 ```
 $ pepython --help
@@ -56,14 +62,16 @@ Uploading pepython-0.1.0.tar.gz
 Executed task 'build_and_publish' successfuly.
 ```
 
-If you need task **arguments**, they are defined naturally:
+Note how **dependencies** are __just method calls__ in the body of the tasks themselves. This allows easy forwarding of params and a more flexible schema than some configured pre/post dependencies, like it's done in other tools.
+
+If you need task **arguments**, they are defined naturally, again in plain Pyhton:
 
 ```python
 @task
 def task_args(first_arg, second_arg, *rest_of_args):
     print(
-        "You've passed {} and {} as the 2 first parms, then passed:\n{}."
-        .format(first_arg, second_arg, rest_of_args)
+        f"You've passed {first_arg} and {second_arg} as "
+        f"the 2 first parms, then passed:\n{rest_of_args}."
     )
 ```
 
@@ -75,35 +83,14 @@ You've passed a and b as the 2 first parms, then passed:
 Executed task 'task_args' successfuly.
 ```
 
-The main idea is to use Python for your task automation, with all of it's flexibility but without loosing the shell. This is why there is `s()` (short for _shell_).
+The main idea is to use the Python language for your task automation, with all of it's flexibility but without loosing the shell. This is why there's `s()` (short for _shell_).
 
-Apart from the `interactive` param shown above (see the password prompt in the output), it has some other possibilities:
-
-**Interactive processes** are easily left piped to the user:
-
-```python
-@task
-def change_pass():
-    s("passwd", interactive=True)
-```
-
-```
-$ pepython change_pass
-Changing password for nando.
-(current) UNIX password:
-Enter new UNIX password:
-Retype new UNIX password:
-passwd: password updated successfully
-
-Executed task 'change_pass' successfuly.
-```
-
-While other **non interactive processes** can be left to be managed by the task:
+`s()` is meant to to be easy to use. Above we saw how using the `interactive` option, the password prompt was **handled interactively by the user**, while other **non interactive processes** can be left to be managed by the task. We'll demonstrate it here, along with the `fail_fast` option, that when set to false, allows the task to manage the errors:
 
 ```python
 @task
 def process_python_files():
-    ls_result = s("ls *py", fail_fast=False, verbose=True)
+    ls_result = s("ls *py", fail_fast=False)
 
     if not ls_result.ok:
         exit("No python files here")
@@ -112,13 +99,21 @@ def process_python_files():
     python_files = [f.strip() for f in python_files_raw if f.strip()]
 
     print(
-        "These are the python files in this directory:\n{}"
-        .format(python_files)
+        f"These are the python files in this directory:\n{python_files}"
     )
 ```
 
 ```
 $ pepython process_python_files
+These are the python files in this directory:
+['setup.py', 'tasks.py']
+
+Executed task 'shell_returned_values' successfuly.
+```
+
+`s()` can also receive the `verbose` option so you can see the exit code, stdout and stderr printed as follows:
+
+```
 Executed shell command 'ls *py'
 exit code was: 0
 stdout was:
@@ -127,13 +122,9 @@ tasks.py
 
 stderr was:
 
-These are the python files in this directory:
-[u'setup.py', u'tasks.py']
-
-Executed task 'shell_returned_values' successfuly.
 ```
 
-## Development
+## Contributing
 
 Make sure you have the lastest `pip` and `pipenv` versions:
 
@@ -148,9 +139,11 @@ pipenv shell
 pipenv install -d
 ```
 
+The installed `pepython` within the pipenv environment is the editable (alla `pip install -e .`) version of the package, so you can manually test right away.
+
 This tool uses both [`pipenv`](https://pipenv.readthedocs.io/) for development and [`setuptools`](https://setuptools.readthedocs.io/) for packaging and distribution. To this date there is not a 100% community-accepted best practice so I've taken [this approach](https://github.com/pypa/pipenv/issues/209#issuecomment-337409290). In summary:
 
-To add an _application_ dependency, add it in `setup.py` and leave it with a loose version definition. Then, just do `pipenv install -e .` to install the dependency. Pipenv locking mecanism will work as expected, since pepython itself in in the `[packages]` section of `Pipfile` (check `Pipfile.lock` and you'll find the deps there).
+To add an _application_ dependency, add it in `setup.py` and leave it with a loose version definition. Then, just do `pipenv install -e .` to install the dependency. Pipenv locking mecanism will work as expected, since pepython itself is in the `[packages]` section of `Pipfile` (check `Pipfile.lock` and you'll find the deps there).
 
 To add a _development_ dependency, add it to `Pipfile` via `pipenv install -d <my-dependency>`.
 
@@ -167,3 +160,4 @@ This project uses `pepython` itself for automation. There you'll find tasks to b
 ## License
 
 This project is licensed under the MIT License - see the [`LICENSE`](https://github.com/nandilugio/pepython/blob/master/LICENSE) file for details.
+
