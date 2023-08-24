@@ -4,7 +4,6 @@ from pepython.task_def import task, s
 @task
 def clean():
     s("rm -rf build dist pip-wheel-metadata *.egg-info")
-    s("pipenv install -e .")
 
 
 @task
@@ -21,6 +20,6 @@ def publish():
 
 
 @task
-def build_and_publish(*args):
+def build_and_publish():
     build()
     publish()
