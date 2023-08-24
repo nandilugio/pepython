@@ -4,3 +4,5 @@ pip-wheel-metadata
 *.egg-info
 *.pyc
 .pytest_cache
+.tox
+dev_requirements_tox.txt
